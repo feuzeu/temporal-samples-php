@@ -38,8 +38,10 @@ class ExecuteCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $batchId = intval($input->getArgument('batchId'));
-        $minItemCount = intval($input->getOption('min'));
-        $maxItemCount = intval($input->getOption('max'));
+        $options = [
+            'min' => intval($input->getOption('min')),
+            'max' => intval($input->getOption('max')),
+        ];
 
         $workflow = $this->workflowClient->newWorkflowStub(
             SimpleBatchWorkflowInterface::class,
@@ -51,7 +53,7 @@ class ExecuteCommand extends Command
         $output->writeln("Starting <comment>SimpleBatchWorkflow</comment>... ");
 
         try {
-            $run = $this->workflowClient->start($workflow, $batchId, $minItemCount, $maxItemCount);
+            $run = $this->workflowClient->start($workflow, $batchId, $options);
             $output->writeln(
                 sprintf(
                     'Started: WorkflowID=<fg=magenta>%s</fg=magenta>, RunID=<fg=magenta>%s</fg=magenta>',

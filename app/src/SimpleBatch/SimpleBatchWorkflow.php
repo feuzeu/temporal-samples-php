@@ -55,10 +55,9 @@ class SimpleBatchWorkflow implements SimpleBatchWorkflowInterface
     /**
      * @inheritDoc
      */
-    public function start(int $batchId, int $minItemCount, int $maxItemCount)
+    public function start(int $batchId, array $options)
     {
-        $itemIds = yield $this->batchActivity
-            ->getBatchItemIds($batchId, $minItemCount, $maxItemCount);
+        $itemIds = yield $this->batchActivity->getBatchItemIds($batchId, $options);
 
         $promises = [];
         foreach($itemIds as $itemId)
@@ -68,13 +67,13 @@ class SimpleBatchWorkflow implements SimpleBatchWorkflowInterface
             // Process the batch item.
             $promises[$itemId] = Workflow::async(
                 function() use($itemId, $batchId) {
-                    // Set the item processing as started.
+                    // Notify the item processing start.
                     yield $this->batchActivity->itemProcessingStarted($itemId, $batchId);
 
                     // This activity randomly throws an exception.
                     $output = yield $this->batchActivity->processItem($itemId, $batchId);
 
-                    // Set the item processing as ended.
+                    // Notify the item processing end.
                     yield $this->batchActivity->itemProcessingEnded($itemId, $batchId);
 
                     return $output;

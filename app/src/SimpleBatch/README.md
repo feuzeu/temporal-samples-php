@@ -8,7 +8,7 @@ Run the following command to start a batch with a number of items randomly chose
 php ./app/app.php simple-batch:start <batchId> [--min <min item count>] [--max <max item count>]
 ```
 
-The minimum and maximum item count resp. default to 20 and 50.
+The minimum and maximum item count resp. default to 10 and 20.
 
 Run the following command to show the batch status:
 

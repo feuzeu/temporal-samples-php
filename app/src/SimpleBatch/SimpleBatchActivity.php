@@ -17,6 +17,9 @@ use Temporal\SampleUtils\Logger;
 
 class SimpleBatchActivity implements SimpleBatchActivityInterface
 {
+    /**
+     * @var LoggerInterface
+     */
     private LoggerInterface $logger;
 
     public function __construct()
@@ -27,19 +30,13 @@ class SimpleBatchActivity implements SimpleBatchActivityInterface
     /**
      * @inheritDoc
      */
-    public function getBatchItemIds(int $batchId, int $minItemCount, int $maxItemCount): array
+    public function getBatchItemIds(int $batchId, array $options): array
     {
+        $minItemCount = $options['min'] ?? 10;
+        $maxItemCount = $options['max'] ?? 20;
+        // Return an array with between $minItemCount and $maxItemCount entries.
         return array_map(fn(int $itemId) => ($batchId % 100) * 1000 + $itemId,
             range(101, random_int(100 + $minItemCount, 100 + $maxItemCount)));
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function itemProcessingStarted(int $itemId, int $batchId): bool
-    {
-        $this->log("Started processing of item %d of batch %d.", $itemId, $batchId);
-        return true;
     }
 
     /**
@@ -64,10 +61,17 @@ class SimpleBatchActivity implements SimpleBatchActivityInterface
     /**
      * @inheritDoc
      */
-    public function itemProcessingEnded(int $itemId, int $batchId): bool
+    public function itemProcessingStarted(int $itemId, int $batchId): void
+    {
+        $this->log("Started processing of item %d of batch %d.", $itemId, $batchId);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function itemProcessingEnded(int $itemId, int $batchId): void
     {
         $this->log("Ended processing of item %d of batch %d.", $itemId, $batchId);
-        return true;
     }
 
     /**

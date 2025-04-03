@@ -21,7 +21,7 @@ interface SimpleBatchWorkflowInterface
     public const WORKFLOW_ID = 'simple-batch-workflow';
 
     #[WorkflowMethod(name: "SimpleBatch")]
-    public function start(int $batchId, int $minItemCount, int $maxItemCount);
+    public function start(int $batchId, array $options);
 
     #[QueryMethod]
     public function getAvailableResults(): array;
