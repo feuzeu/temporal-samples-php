@@ -57,6 +57,9 @@ class SimpleBatchWorkflow implements SimpleBatchWorkflowInterface
      */
     public function start(int $batchId, array $options)
     {
+        // Notify the batch processing start.
+        yield $this->batchActivity->batchProcessingStarted($batchId, $options);
+
         $itemIds = yield $this->batchActivity->getBatchItemIds($batchId, $options);
 
         $promises = [];
@@ -96,6 +99,9 @@ class SimpleBatchWorkflow implements SimpleBatchWorkflowInterface
 
         // Wait for all the async calls to terminate.
         yield Promise::all($promises);
+
+        // Notify the batch processing end.
+        yield $this->batchActivity->batchProcessingEnded($batchId, $this->results);
 
         return $this->results;
     }

@@ -59,6 +59,30 @@ class SimpleBatchActivity implements SimpleBatchActivityInterface
     }
 
     /**
+     * @param int $batchId
+     * @param array $options
+     *
+     * @return void
+     */
+    public function batchProcessingStarted(int $batchId, array $options): void
+    {
+        $this->log("Started processing of batch %d.", $batchId);
+        $this->log("Batch options: %s.", json_encode($options, JSON_PRETTY_PRINT));
+    }
+
+    /**
+     * @param int $batchId
+     * @param array $results
+     *
+     * @return void
+     */
+    public function batchProcessingEnded(int $batchId, array $results): void
+    {
+        $this->log("Ended processing of batch %d.", $batchId);
+        $this->log("Batch results: %s.", json_encode($results, JSON_PRETTY_PRINT));
+    }
+
+    /**
      * @inheritDoc
      */
     public function itemProcessingStarted(int $itemId, int $batchId): void

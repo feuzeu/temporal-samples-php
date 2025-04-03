@@ -33,6 +33,22 @@ interface SimpleBatchActivityInterface
     public function processItem(int $itemId, int $batchId): int;
 
     /**
+     * @param int $batchId
+     * @param array $options
+     *
+     * @return void
+     */
+    public function batchProcessingStarted(int $batchId, array $options): void;
+
+    /**
+     * @param int $batchId
+     * @param array $results
+     *
+     * @return void
+     */
+    public function batchProcessingEnded(int $batchId, array $results): void;
+
+    /**
      * @param int $itemId
      * @param int $batchId
      *
