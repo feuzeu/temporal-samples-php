@@ -40,9 +40,9 @@ class SimpleBatchWorkflow implements SimpleBatchWorkflowInterface
         $this->batchActivity = Workflow::newActivityStub(
             SimpleBatchActivityInterface::class,
             ActivityOptions::new()
-                ->withStartToCloseTimeout(CarbonInterval::hours(6))
-                ->withScheduleToStartTimeout(CarbonInterval::hours(4))
-                ->withScheduleToCloseTimeout(CarbonInterval::hours(6))
+                ->withStartToCloseTimeout(CarbonInterval::seconds(10))
+                ->withScheduleToStartTimeout(CarbonInterval::seconds(10))
+                ->withScheduleToCloseTimeout(CarbonInterval::minutes(30))
                 ->withRetryOptions(
                     RetryOptions::new()
                         ->withMaximumAttempts(100)

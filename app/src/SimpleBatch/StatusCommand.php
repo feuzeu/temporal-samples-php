@@ -44,7 +44,7 @@ class StatusCommand extends Command
         $output->writeln(json_encode([
             'count' => [
                 'pending' => count($pending),
-                'results' => count($results),
+                'ended' => count($results),
                 'succeeded' => count($results) - $failedCount,
                 'failed' => $failedCount,
             ],
