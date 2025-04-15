@@ -20,7 +20,7 @@ interface SimpleBatchWorkflowInterface
 {
     public const WORKFLOW_ID = 'simple-batch-child-workflow';
 
-    #[WorkflowMethod(name: "SimpleBatch")]
+    #[WorkflowMethod(name: "SimpleBatchChild")]
     public function start(int $batchId, array $options);
 
     #[QueryMethod]
